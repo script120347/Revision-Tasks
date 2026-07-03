@@ -13,7 +13,6 @@ const wss = new WebSocket.Server({ server });
 const db = new sqlite3.Database('./chat.db');
 
 db.serialize(() => {
-  // Users table with role
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
@@ -24,7 +23,6 @@ db.serialize(() => {
     created_at INTEGER DEFAULT (strftime('%s', 'now'))
   )`);
 
-  // Messages table
   db.run(`CREATE TABLE IF NOT EXISTS messages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
@@ -35,7 +33,6 @@ db.serialize(() => {
     is_system INTEGER DEFAULT 0
   )`);
 
-  // Online users
   db.run(`CREATE TABLE IF NOT EXISTS online_users (
     username TEXT PRIMARY KEY,
     last_seen INTEGER DEFAULT (strftime('%s', 'now'))
@@ -116,7 +113,6 @@ app.post('/api/admin/kick', (req, res) => {
       if (err || !row || row.role !== 'admin') {
         return res.status(403).json({ error: 'Admin required' });
       }
-      // Broadcast kick
       broadcast({ type: 'admin_kick', username: targetUser });
       res.json({ success: true, message: `Kicked ${targetUser}` });
     }
@@ -152,6 +148,21 @@ app.post('/api/admin/jumpscare', (req, res) => {
         return res.status(403).json({ error: 'Admin required' });
       }
       broadcast({ type: 'admin_jumpscare', username: targetUser, sound: sound || 'scream' });
+      res.json({ success: true });
+    }
+  );
+});
+
+app.post('/api/admin/sound', (req, res) => {
+  const { adminUser, adminPass, targetUser, sound } = req.body;
+  const hashed = crypto.createHash('sha256').update(adminPass || '').digest('hex');
+  db.get(`SELECT role FROM users WHERE username = ? AND password = ?`,
+    [adminUser, hashed],
+    (err, row) => {
+      if (err || !row || row.role !== 'admin') {
+        return res.status(403).json({ error: 'Admin required' });
+      }
+      broadcast({ type: 'admin_sound', username: targetUser, sound: sound || 'alert' });
       res.json({ success: true });
     }
   );
