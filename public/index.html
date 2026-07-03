@@ -15,7 +15,6 @@
             flex-direction: column;
             overflow: hidden;
         }
-        /* Corner lines */
         .corner-line {
             position: fixed;
             background: linear-gradient(90deg, #cc66ff, #9933cc, #660099);
@@ -244,7 +243,7 @@
         #settings-status { color: #663399; font-size: 8px; }
         #ad-block-count { color: #663399; font-size: 8px; margin-left: 8px; }
 
-        /* Chat styles */
+        /* ===== CHAT STYLES ===== */
         #chatPanel {
             display: none;
             position: absolute;
@@ -387,7 +386,8 @@
             flex-shrink: 0;
         }
 
-        #login-overlay {
+        /* ===== AUTH OVERLAY ===== */
+        #auth-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95);
@@ -396,31 +396,31 @@
             justify-content: center;
             z-index: 100;
         }
-        #login-overlay .box {
+        #auth-overlay .box {
             background: #0d0015;
             border: 1px solid #9933cc;
             border-radius: 8px;
             padding: 30px;
-            width: 320px;
+            width: 340px;
             text-align: center;
         }
-        #login-overlay .box h2 { color: #cc66ff; margin-bottom: 8px; }
-        #login-overlay .box p { color: #663399; font-size: 12px; margin-bottom: 16px; }
-        #login-overlay .box input {
+        #auth-overlay .box h2 { color: #cc66ff; margin-bottom: 4px; }
+        #auth-overlay .box .sub { color: #663399; font-size: 12px; margin-bottom: 16px; }
+        #auth-overlay .box input {
             width: 100%;
             background: #0a000a;
             border: 1px solid #1a0028;
             color: #cc66ff;
             padding: 8px 12px;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
+            font-size: 13px;
             border-radius: 4px;
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             outline: none;
         }
-        #login-overlay .box input:focus { border-color: #9933cc; }
-        #login-overlay .box button {
+        #auth-overlay .box input:focus { border-color: #9933cc; }
+        #auth-overlay .box button {
             width: 100%;
             background: #0d0015;
             border: 1px solid #9933cc;
@@ -431,9 +431,79 @@
             font-size: 14px;
             border-radius: 4px;
             transition: 0.2s;
+            margin-top: 4px;
         }
-        #login-overlay .box button:hover { background: #1a0028; }
-        #login-overlay .error { color: #ff6b6b; font-size: 12px; margin-top: 8px; display: none; }
+        #auth-overlay .box button:hover { background: #1a0028; }
+        #auth-overlay .box .switch {
+            background: transparent;
+            border: none;
+            color: #663399;
+            font-size: 11px;
+            cursor: pointer;
+            margin-top: 8px;
+            text-decoration: underline;
+        }
+        #auth-overlay .box .switch:hover { color: #cc66ff; }
+        #auth-overlay .error { color: #ff6b6b; font-size: 12px; margin-top: 6px; display: none; }
+
+        .hidden { display: none !important; }
+
+        /* ===== ADMIN PANEL ===== */
+        #admin-panel {
+            border-top: 1px solid #9933cc;
+            padding-top: 8px;
+            margin-top: 8px;
+            display: none;
+        }
+        #admin-panel.visible { display: block; }
+        #admin-panel .admin-title {
+            color: #ff4444;
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        #admin-panel input, #admin-panel button {
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            border-radius: 3px;
+        }
+        #admin-panel input {
+            background: #0a000a;
+            border: 1px solid #1a0028;
+            color: #cc66ff;
+            padding: 2px 6px;
+            width: 100%;
+            outline: none;
+        }
+        #admin-panel input:focus { border-color: #9933cc; }
+        #admin-panel .admin-row { display: flex; gap: 4px; margin-top: 4px; }
+        #admin-panel .admin-row button {
+            flex: 1;
+            background: #0d0015;
+            border: 1px solid #1a0028;
+            color: #9966cc;
+            padding: 3px 0;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        #admin-panel .admin-row button:hover { background: #1a0028; border-color: #9933cc; }
+        #admin-panel .admin-kick { color: #ff6b6b; }
+        #admin-panel .admin-rename { color: #ffd93d; }
+        #admin-panel .admin-jumpscare { color: #ff4444; }
+        #admin-panel .admin-sound { color: #ff8800; }
+        #admin-panel .admin-users { color: #6bcb77; }
+        #adminUsersList {
+            font-size: 8px;
+            color: #663399;
+            max-height: 80px;
+            overflow-y: auto;
+            margin-top: 4px;
+            padding: 4px;
+            border: 1px solid #1a0028;
+            border-radius: 3px;
+            background: #0a000a;
+        }
+        #adminUsersList .admin-user { color: #ff4444; }
 
         @media (max-width: 600px) {
             .tab { font-size: 9px; padding: 4px 6px; }
@@ -446,7 +516,7 @@
             #corner-tl, #corner-tr, #corner-bl, #corner-br { width: 30px; }
             #corner-vtl, #corner-vtr, #corner-vbl, #corner-vbr { height: 30px; }
             #sidebar { width: 120px; padding: 8px; font-size: 10px; }
-            #login-overlay .box { width: 280px; padding: 20px; }
+            #auth-overlay .box { width: 290px; padding: 20px; }
         }
     </style>
 </head>
@@ -506,13 +576,31 @@
                 <h2>💬 Utopia Chat</h2>
                 <button id="chatCloseBtn">✕ Close</button>
             </div>
-            <div id="chat-container" style="display:none;">
+            <div id="chat-container">
                 <div id="sidebar">
                     <div class="user-count">👥 <span id="onlineCount">0</span> online</div>
                     <div id="online-list"></div>
                     <div style="margin-top:auto;font-size:10px;color:#663399;border-top:1px solid #1a0028;padding-top:8px;">
                         <span id="currentUser"></span>
                         <button id="logoutBtn" style="background:transparent;border:1px solid #1a0028;color:#663399;cursor:pointer;font-family:'Courier New',monospace;font-size:9px;padding:2px 8px;border-radius:3px;float:right;">Leave</button>
+                    </div>
+                    <!-- Admin Panel -->
+                    <div id="admin-panel">
+                        <div class="admin-title">👑 ADMIN PANEL</div>
+                        <input id="adminTarget" placeholder="Target username" maxlength="20">
+                        <div class="admin-row">
+                            <button id="adminKickBtn" class="admin-kick">🚪 Kick</button>
+                            <button id="adminRenameBtn" class="admin-rename">✏️ Rename</button>
+                        </div>
+                        <div class="admin-row">
+                            <button id="adminJumpscareBtn" class="admin-jumpscare">💀 Jump</button>
+                            <button id="adminSoundBtn" class="admin-sound">🔊 Sound</button>
+                        </div>
+                        <div class="admin-row">
+                            <button id="adminUsersBtn" class="admin-users">📋 List Users</button>
+                            <button id="adminRefreshBtn" class="admin-users" style="color:#4d96ff;">🔄 Refresh</button>
+                        </div>
+                        <div id="adminUsersList"></div>
                     </div>
                 </div>
                 <div id="chat-main">
@@ -527,14 +615,16 @@
         </div>
     </div>
 
-    <!-- Login Overlay -->
-    <div id="login-overlay">
+    <!-- Auth Overlay (Login/Register) -->
+    <div id="auth-overlay">
         <div class="box">
-            <h2>💬 Utopia Chat</h2>
-            <p>Enter a username to join</p>
-            <input type="text" id="usernameInput" maxlength="20" placeholder="YourUsername" autofocus>
-            <button id="loginBtn">Join Chat</button>
-            <div class="error" id="loginError">Username: 2-20 chars, letters/numbers/underscores</div>
+            <h2 id="authTitle">💬 Login</h2>
+            <p class="sub" id="authSub">Enter your credentials</p>
+            <input type="text" id="authUsername" placeholder="Username" maxlength="20" autofocus>
+            <input type="password" id="authPassword" placeholder="Password" maxlength="30">
+            <button id="authBtn">Login</button>
+            <button class="switch" id="authSwitch">Create an account</button>
+            <div class="error" id="authError"></div>
         </div>
     </div>
 
@@ -573,11 +663,57 @@
             const settingsStatus = document.getElementById('settings-status');
             const adBlockCount = document.getElementById('ad-block-count');
 
+            // ===== CHAT DOM REFS =====
+            const chatPanel = document.getElementById('chatPanel');
+            const chatContainer = document.getElementById('chat-container');
+            const messagesContainer = document.getElementById('messages');
+            const messageInput = document.getElementById('messageInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const onlineList = document.getElementById('online-list');
+            const onlineCount = document.getElementById('onlineCount');
+            const currentUser = document.getElementById('currentUser');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const chatCloseBtn = document.getElementById('chatCloseBtn');
+            const typingIndicator = document.getElementById('typing-indicator');
+            const chatToggle = document.getElementById('chat-toggle');
+
+            // ===== AUTH DOM REFS =====
+            const authOverlay = document.getElementById('auth-overlay');
+            const authTitle = document.getElementById('authTitle');
+            const authSub = document.getElementById('authSub');
+            const authUsername = document.getElementById('authUsername');
+            const authPassword = document.getElementById('authPassword');
+            const authBtn = document.getElementById('authBtn');
+            const authSwitch = document.getElementById('authSwitch');
+            const authError = document.getElementById('authError');
+
+            // ===== ADMIN DOM REFS =====
+            const adminPanel = document.getElementById('admin-panel');
+            const adminTarget = document.getElementById('adminTarget');
+            const adminKickBtn = document.getElementById('adminKickBtn');
+            const adminRenameBtn = document.getElementById('adminRenameBtn');
+            const adminJumpscareBtn = document.getElementById('adminJumpscareBtn');
+            const adminSoundBtn = document.getElementById('adminSoundBtn');
+            const adminUsersBtn = document.getElementById('adminUsersBtn');
+            const adminRefreshBtn = document.getElementById('adminRefreshBtn');
+            const adminUsersList = document.getElementById('adminUsersList');
+
             let activeTabId = 'utopia';
             let startTime = Date.now();
             let blankMode = false;
             let settingsVisible = false;
             let adBlockedCount = 0;
+
+            // ===== CHAT STATE =====
+            let ws = null;
+            let chatUsername = '';
+            let chatColor = '#cc66ff';
+            let chatAvatar = '';
+            let chatRole = 'user';
+            let onlineUsers = new Set();
+            let chatMessages = [];
+            let reconnectAttempts = 0;
+            let chatVisible = false;
 
             // ===== AD BLOCK =====
             const AD_PATTERNS = [
@@ -756,7 +892,7 @@
                 uptimeEl.textContent = 'UPTIME: ' + h + ':' + m + ':' + s;
             }, 1000);
 
-            // ===== BLOCK NEW TABS =====
+            // ===== KEYBOARD SHORTCUTS =====
             document.addEventListener('keydown', function(e) {
                 if ((e.ctrlKey || e.metaKey) && (e.key === 'n' || e.key === 'N' || e.key === 't' || e.key === 'T')) {
                     e.preventDefault();
@@ -887,18 +1023,12 @@
                 document.head.appendChild(meta);
             } catch(e) {}
 
+            // ============================================================
             // ===== CHAT SYSTEM =====
-            let ws = null;
-            let chatUsername = '';
-            let chatColor = '#cc66ff';
-            let chatAvatar = '';
-            let onlineUsers = new Set();
-            let chatMessages = [];
-            let reconnectAttempts = 0;
-            let chatVisible = false;
+            // ============================================================
 
             function getColor(username) {
-                const colors = ['#cc66ff','#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff8a80','#93c5fd','#ff9800','#e040fb','#69f0ae'];
+                const colors = ['#cc66ff','#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff8a80','#93c5fd','#ff9800','#e040fb','#69f0ae','#ff9ff3','#54a0ff','#5f27cd','#01a3a4','#f368e0'];
                 let hash = 0;
                 for (let i = 0; i < username.length; i++) {
                     hash = username.charCodeAt(i) + ((hash << 5) - hash);
@@ -918,37 +1048,77 @@
             }
 
             function appendMessage(msg) {
-                const container = document.getElementById('messages');
-                if (!container) return;
+                if (!messagesContainer) return;
                 const isSelf = msg.username === chatUsername;
+                const isAdmin = msg.role === 'admin';
                 const div = document.createElement('div');
                 div.className = `msg ${isSelf ? 'self' : ''}`;
                 const avatarChar = msg.avatar ? `<img src="${msg.avatar}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;" />` : msg.username.charAt(0).toUpperCase();
                 const time = new Date(msg.time * 1000).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+                const adminBadge = isAdmin ? ' 👑' : '';
                 div.innerHTML = `
                     <div class="avatar">${avatarChar}</div>
                     <div class="body">
                         <div class="head">
-                            <span class="name" style="color:${msg.color || '#cc66ff'}">${escapeHtml(msg.username)}</span>
+                            <span class="name" style="color:${msg.color || '#cc66ff'}">${escapeHtml(msg.username)}${adminBadge}</span>
                             <span class="time">${time}</span>
                         </div>
                         <div class="text">${escapeHtml(msg.content)}</div>
                     </div>
                 `;
-                container.appendChild(div);
-                container.scrollTop = container.scrollHeight;
+                messagesContainer.appendChild(div);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
 
             function updateOnlineList() {
-                const list = document.getElementById('online-list');
-                if (!list) return;
-                list.innerHTML = Array.from(onlineUsers).map(u => 
-                    `<div class="${u === chatUsername ? 'online' : ''}">${u === chatUsername ? '⭐ ' : ''}${escapeHtml(u)}</div>`
-                ).join('');
-                const count = document.getElementById('onlineCount');
-                if (count) count.textContent = onlineUsers.size;
+                if (!onlineList || !onlineCount) return;
+                onlineList.innerHTML = Array.from(onlineUsers).map(u => {
+                    const isAdmin = u === 'admin';
+                    return `<div class="${u === chatUsername ? 'online' : ''}">${u === chatUsername ? '⭐ ' : ''}${escapeHtml(u)}${isAdmin ? ' 👑' : ''}</div>`;
+                }).join('');
+                onlineCount.textContent = onlineUsers.size;
             }
 
+            // ===== PLAY SOUND =====
+            function playSound(type) {
+                try {
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    
+                    if (type === 'scream' || type === 'jumpscare') {
+                        oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
+                        oscillator.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.5);
+                        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
+                        oscillator.start(audioCtx.currentTime);
+                        oscillator.stop(audioCtx.currentTime + 0.8);
+                        // Flash red
+                        const flash = document.createElement('div');
+                        flash.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:red;z-index:9999;pointer-events:none;opacity:0.7;transition:opacity 0.1s;';
+                        document.body.appendChild(flash);
+                        setTimeout(() => { flash.style.opacity = '0'; }, 100);
+                        setTimeout(() => { flash.remove(); }, 500);
+                    } else if (type === 'alert') {
+                        oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
+                        oscillator.frequency.setValueAtTime(900, audioCtx.currentTime + 0.1);
+                        gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                        oscillator.start(audioCtx.currentTime);
+                        oscillator.stop(audioCtx.currentTime + 0.3);
+                    } else {
+                        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+                        gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                        oscillator.start(audioCtx.currentTime);
+                        oscillator.stop(audioCtx.currentTime + 0.2);
+                    }
+                } catch(e) { console.log('Sound error:', e); }
+            }
+
+            // ===== CONNECT WEBSOCKET =====
             function connectWebSocket() {
                 const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
                 const host = window.location.host;
@@ -968,25 +1138,63 @@
                 ws.onmessage = (e) => {
                     try {
                         const data = JSON.parse(e.data);
+                        
                         if (data.type === 'message') {
                             appendMessage(data.message);
                             chatMessages.push(data.message);
                         }
+                        
                         if (data.type === 'online_update') {
                             onlineUsers = new Set(data.users || []);
                             updateOnlineList();
                         }
+                        
                         if (data.type === 'typing') {
-                            const indicator = document.getElementById('typing-indicator');
-                            if (indicator) {
+                            if (typingIndicator) {
                                 if (data.is_typing && data.username && data.username !== chatUsername) {
-                                    indicator.textContent = `${data.username} is typing...`;
+                                    typingIndicator.textContent = `${data.username} is typing...`;
                                 } else {
-                                    indicator.textContent = '';
+                                    typingIndicator.textContent = '';
                                 }
                             }
                         }
-                    } catch(err) {}
+
+                        // ===== ADMIN EVENTS =====
+                        if (data.type === 'admin_kick') {
+                            if (data.username === chatUsername) {
+                                alert('👑 You have been kicked by an admin!');
+                                logoutChat();
+                            } else {
+                                appendMessage({ username: 'System', content: `👑 ${data.username} was kicked by admin`, color: '#ff6b6b', time: Math.floor(Date.now() / 1000), role: 'system' });
+                            }
+                        }
+
+                        if (data.type === 'admin_rename') {
+                            if (data.oldName === chatUsername) {
+                                chatUsername = data.newName;
+                                currentUser.textContent = '👤 ' + chatUsername;
+                                document.title = 'Utopia Shell - ' + chatUsername;
+                            }
+                            appendMessage({ username: 'System', content: `👑 ${data.oldName} was renamed to ${data.newName}`, color: '#ffd93d', time: Math.floor(Date.now() / 1000), role: 'system' });
+                        }
+
+                        if (data.type === 'admin_jumpscare') {
+                            if (data.username === chatUsername || data.username === 'all') {
+                                playSound('jumpscare');
+                                appendMessage({ username: 'System', content: `👑 ADMIN JUMPSCARED YOU! 💀`, color: '#ff4444', time: Math.floor(Date.now() / 1000), role: 'system' });
+                            } else {
+                                appendMessage({ username: 'System', content: `👑 ${data.username} was jumpscared by admin`, color: '#ff4444', time: Math.floor(Date.now() / 1000), role: 'system' });
+                            }
+                        }
+
+                        if (data.type === 'admin_sound') {
+                            if (data.username === chatUsername || data.username === 'all') {
+                                playSound(data.sound || 'alert');
+                            }
+                            appendMessage({ username: 'System', content: `👑 Admin played a sound for ${data.username}`, color: '#ff8800', time: Math.floor(Date.now() / 1000), role: 'system' });
+                        }
+
+                    } catch(err) { console.error('WS parse error:', err); }
                 };
 
                 ws.onclose = () => {
@@ -997,13 +1205,13 @@
                 };
             }
 
+            // ===== LOAD MESSAGES =====
             function loadMessages() {
                 fetch('/api/messages')
                     .then(res => res.json())
                     .then(data => {
                         if (data.messages) {
-                            const container = document.getElementById('messages');
-                            if (container) container.innerHTML = '';
+                            if (messagesContainer) messagesContainer.innerHTML = '';
                             chatMessages = data.messages || [];
                             chatMessages.forEach(msg => appendMessage(msg));
                         }
@@ -1011,116 +1219,251 @@
                     .catch(() => {});
             }
 
+            // ===== SEND MESSAGE =====
             function sendMessage() {
-                const input = document.getElementById('messageInput');
-                if (!input) return;
-                const content = input.value.trim();
-                if (!content || !ws || ws.readyState !== WebSocket.OPEN) return;
+                if (!messageInput) return;
+                const content = messageInput.value.trim();
+                if (!content || !ws || ws.readyState !== WebSocket.OPEN) {
+                    if (typingIndicator) typingIndicator.textContent = '⚠️ Reconnecting...';
+                    return;
+                }
                 ws.send(JSON.stringify({
-                    type: 'message',
+                    type: 'ws_message',
                     content,
                     color: chatColor,
                     avatar: chatAvatar
                 }));
-                input.value = '';
+                messageInput.value = '';
+                if (typingIndicator) typingIndicator.textContent = '';
             }
 
-            // ===== CHAT TOGGLE =====
-            function toggleChat() {
-                const panel = document.getElementById('chatPanel');
-                const loginOverlay = document.getElementById('login-overlay');
-                if (!panel) return;
-                chatVisible = !chatVisible;
-                if (chatVisible) {
-                    panel.classList.add('active');
-                    panel.style.display = 'flex';
-                    frame.style.display = 'none';
-                    if (chatUsername) {
-                        document.getElementById('chat-container').style.display = 'flex';
-                        document.getElementById('login-overlay').style.display = 'none';
-                        loadMessages();
-                        connectWebSocket();
-                        document.getElementById('currentUser').textContent = '👤 ' + chatUsername;
-                    } else {
-                        document.getElementById('chat-container').style.display = 'none';
-                        loginOverlay.style.display = 'flex';
-                    }
-                    document.getElementById('chat-toggle').textContent = '✕ CHAT';
+            // ===== LOGOUT CHAT =====
+            function logoutChat() {
+                if (ws) { try { ws.close(); } catch(e) {} }
+                if (window._pingInterval) clearInterval(window._pingInterval);
+                chatUsername = '';
+                chatRole = 'user';
+                onlineUsers.clear();
+                chatMessages = [];
+                if (messagesContainer) messagesContainer.innerHTML = '';
+                adminPanel.classList.remove('visible');
+                chatPanel.classList.remove('active');
+                chatPanel.style.display = 'none';
+                frame.style.display = 'block';
+                chatToggle.textContent = '💬 CHAT';
+                chatVisible = false;
+                authOverlay.style.display = 'flex';
+                authUsername.value = '';
+                authPassword.value = '';
+                authUsername.focus();
+            }
+
+            // ============================================================
+            // ===== AUTH SYSTEM =====
+            // ============================================================
+
+            let isLogin = true;
+
+            authSwitch.addEventListener('click', () => {
+                isLogin = !isLogin;
+                if (isLogin) {
+                    authTitle.textContent = '💬 Login';
+                    authSub.textContent = 'Enter your credentials';
+                    authBtn.textContent = 'Login';
+                    authSwitch.textContent = 'Create an account';
                 } else {
-                    panel.classList.remove('active');
-                    panel.style.display = 'none';
-                    frame.style.display = 'block';
-                    document.getElementById('chat-toggle').textContent = '💬 CHAT';
-                    if (ws) ws.close();
+                    authTitle.textContent = '📝 Register';
+                    authSub.textContent = 'Create a new account';
+                    authBtn.textContent = 'Register';
+                    authSwitch.textContent = 'Back to login';
                 }
-            }
+                authError.style.display = 'none';
+                authError.textContent = '';
+            });
 
-            // ===== CHAT LOGIN =====
-            document.getElementById('loginBtn').addEventListener('click', function() {
-                const input = document.getElementById('usernameInput');
-                const error = document.getElementById('loginError');
-                const val = input.value.trim();
-                if (val.length < 2 || val.length > 20 || !/^[A-Za-z0-9_]+$/.test(val)) {
+            authBtn.addEventListener('click', handleAuth);
+            authPassword.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handleAuth();
+            });
+
+            async function handleAuth() {
+                const username = authUsername.value.trim();
+                const password = authPassword.value.trim();
+                const error = authError;
+
+                if (!username || !password) {
+                    error.textContent = 'Please fill in all fields';
                     error.style.display = 'block';
                     return;
                 }
-                error.style.display = 'none';
-                chatUsername = val;
-                chatColor = getColor(val);
-                
-                fetch('/api/users', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: chatUsername, color: chatColor })
-                }).then(() => {
-                    document.getElementById('login-overlay').style.display = 'none';
-                    document.getElementById('chat-container').style.display = 'flex';
-                    document.getElementById('currentUser').textContent = '👤 ' + chatUsername;
+
+                const endpoint = isLogin ? '/api/login' : '/api/register';
+                try {
+                    const res = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, password })
+                    });
+                    const data = await res.json();
+                    if (!res.ok) {
+                        error.textContent = data.error || 'Authentication failed';
+                        error.style.display = 'block';
+                        return;
+                    }
+                    
+                    chatUsername = data.user ? data.user.username : username;
+                    chatColor = data.user ? data.user.color : getColor(chatUsername);
+                    chatRole = data.user ? data.user.role : 'user';
+                    
+                    authOverlay.style.display = 'none';
+                    chatPanel.classList.add('active');
+                    chatPanel.style.display = 'flex';
+                    frame.style.display = 'none';
+                    currentUser.textContent = '👤 ' + chatUsername;
+                    
+                    if (chatRole === 'admin') {
+                        adminPanel.classList.add('visible');
+                        currentUser.textContent = '👑 ' + chatUsername;
+                    }
+                    
                     loadMessages();
                     connectWebSocket();
-                    document.getElementById('messageInput').focus();
-                }).catch(() => {
+                    messageInput.focus();
+                    chatVisible = true;
+                    chatToggle.textContent = '✕ CHAT';
+
+                } catch(e) {
                     error.textContent = 'Server error. Try again.';
                     error.style.display = 'block';
-                });
-            });
+                }
+            }
 
-            document.getElementById('usernameInput').addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') document.getElementById('loginBtn').click();
-            });
+            // ============================================================
+            // ===== ADMIN FUNCTIONS =====
+            // ============================================================
 
-            // ===== CHAT SEND =====
-            document.getElementById('sendBtn').addEventListener('click', sendMessage);
-            document.getElementById('messageInput').addEventListener('keydown', (e) => {
+            async function adminKick() {
+                const target = adminTarget.value.trim();
+                if (!target || target === chatUsername) {
+                    alert('Enter a valid target username');
+                    return;
+                }
+                if (!confirm(`Kick ${target}?`)) return;
+                const pass = prompt('Enter admin password:');
+                if (!pass) return;
+                try {
+                    const res = await fetch('/api/admin/kick', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ adminUser: chatUsername, adminPass: pass, targetUser: target })
+                    });
+                    const data = await res.json();
+                    if (!res.ok) alert(data.error);
+                    else alert('✅ ' + data.message);
+                } catch(e) { alert('Error: ' + e.message); }
+            }
+
+            async function adminRename() {
+                const target = adminTarget.value.trim();
+                const newName = prompt('Enter new username:');
+                if (!target || !newName || newName.length < 2) return;
+                if (!confirm(`Rename ${target} to ${newName}?`)) return;
+                const pass = prompt('Enter admin password:');
+                if (!pass) return;
+                try {
+                    const res = await fetch('/api/admin/rename', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ adminUser: chatUsername, adminPass: pass, oldName: target, newName })
+                    });
+                    const data = await res.json();
+                    if (!res.ok) alert(data.error);
+                    else alert('✅ ' + data.message);
+                } catch(e) { alert('Error: ' + e.message); }
+            }
+
+            async function adminJumpscare() {
+                const target = adminTarget.value.trim();
+                if (!target) {
+                    alert('Enter a target username');
+                    return;
+                }
+                const pass = prompt('Enter admin password:');
+                if (!pass) return;
+                try {
+                    const res = await fetch('/api/admin/jumpscare', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ adminUser: chatUsername, adminPass: pass, targetUser: target, sound: 'scream' })
+                    });
+                    if (!res.ok) alert((await res.json()).error);
+                    else alert('💀 Jumpscare sent to ' + target);
+                } catch(e) { alert('Error: ' + e.message); }
+            }
+
+            async function adminSound() {
+                const target = adminTarget.value.trim();
+                if (!target) {
+                    alert('Enter a target username');
+                    return;
+                }
+                const pass = prompt('Enter admin password:');
+                if (!pass) return;
+                const sound = prompt('Sound type (alert, beep, jumpscare):', 'alert');
+                if (!sound) return;
+                try {
+                    const res = await fetch('/api/admin/sound', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ adminUser: chatUsername, adminPass: pass, targetUser: target, sound })
+                    });
+                    if (!res.ok) alert((await res.json()).error);
+                    else alert('🔊 Sound sent to ' + target);
+                } catch(e) { alert('Error: ' + e.message); }
+            }
+
+            async function adminUsers() {
+                const pass = prompt('Enter admin password:');
+                if (!pass) return;
+                try {
+                    const res = await fetch(`/api/admin/users?username=${chatUsername}&password=${encodeURIComponent(pass)}`);
+                    const data = await res.json();
+                    if (!res.ok) alert(data.error);
+                    else {
+                        adminUsersList.innerHTML = data.users.map(u => 
+                            `<div>${u.username} ${u.role === 'admin' ? '👑' : ''} (${u.color})</div>`
+                        ).join('');
+                    }
+                } catch(e) { alert('Error: ' + e.message); }
+            }
+
+            function adminRefresh() {
+                adminUsersList.innerHTML = 'Refreshing...';
+                adminUsers();
+            }
+
+            // ===== ADMIN EVENT BINDINGS =====
+            adminKickBtn.addEventListener('click', adminKick);
+            adminRenameBtn.addEventListener('click', adminRename);
+            adminJumpscareBtn.addEventListener('click', adminJumpscare);
+            adminSoundBtn.addEventListener('click', adminSound);
+            adminUsersBtn.addEventListener('click', adminUsers);
+            adminRefreshBtn.addEventListener('click', adminRefresh);
+
+            // ============================================================
+            // ===== CHAT UI EVENTS =====
+            // ============================================================
+
+            sendBtn.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') sendMessage();
             });
 
-            // ===== CHAT LOGOUT =====
-            document.getElementById('logoutBtn').addEventListener('click', () => {
-                if (ws) ws.close();
-                if (window._pingInterval) clearInterval(window._pingInterval);
-                chatUsername = '';
-                onlineUsers.clear();
-                chatMessages = [];
-                document.getElementById('messages').innerHTML = '';
-                document.getElementById('chat-container').style.display = 'none';
-                document.getElementById('login-overlay').style.display = 'flex';
-                document.getElementById('usernameInput').value = '';
-                document.getElementById('usernameInput').focus();
-            });
-
-            // ===== CHAT CLOSE =====
-            document.getElementById('chatCloseBtn').addEventListener('click', () => {
-                if (chatVisible) toggleChat();
-            });
-
-            // ===== CHAT TYPING =====
-            let typingTimeout = null;
-            document.getElementById('messageInput').addEventListener('input', () => {
+            messageInput.addEventListener('input', () => {
                 if (ws && ws.readyState === WebSocket.OPEN && chatUsername) {
                     ws.send(JSON.stringify({ type: 'typing', is_typing: true }));
-                    clearTimeout(typingTimeout);
-                    typingTimeout = setTimeout(() => {
+                    clearTimeout(window._typingTimeout);
+                    window._typingTimeout = setTimeout(() => {
                         if (ws && ws.readyState === WebSocket.OPEN) {
                             ws.send(JSON.stringify({ type: 'typing', is_typing: false }));
                         }
@@ -1128,8 +1471,39 @@
                 }
             });
 
-            // ===== CHAT TOGGLE BUTTON =====
-            document.getElementById('chat-toggle').addEventListener('click', toggleChat);
+            logoutBtn.addEventListener('click', logoutChat);
+            chatCloseBtn.addEventListener('click', toggleChat);
+
+            // ============================================================
+            // ===== TOGGLE CHAT =====
+            // ============================================================
+
+            function toggleChat() {
+                if (chatVisible) {
+                    chatPanel.classList.remove('active');
+                    chatPanel.style.display = 'none';
+                    frame.style.display = 'block';
+                    chatToggle.textContent = '💬 CHAT';
+                    chatVisible = false;
+                    if (ws) ws.close();
+                } else {
+                    if (!chatUsername) {
+                        authOverlay.style.display = 'flex';
+                        authUsername.focus();
+                        return;
+                    }
+                    chatPanel.classList.add('active');
+                    chatPanel.style.display = 'flex';
+                    frame.style.display = 'none';
+                    chatToggle.textContent = '✕ CHAT';
+                    chatVisible = true;
+                    loadMessages();
+                    connectWebSocket();
+                    messageInput.focus();
+                }
+            }
+
+            chatToggle.addEventListener('click', toggleChat);
             document.addEventListener('keydown', (e) => {
                 if (e.ctrlKey && e.shiftKey && (e.key === 'c' || e.key === 'C')) {
                     e.preventDefault();
@@ -1137,7 +1511,10 @@
                 }
             });
 
+            // ============================================================
             // ===== INIT =====
+            // ============================================================
+
             renderTabs();
             switchTab('utopia');
 
@@ -1150,11 +1527,20 @@
                 nav: navigateTo,
                 blank: goBlank,
                 chat: toggleChat,
-                status: () => frameStatus.textContent
+                status: () => frameStatus.textContent,
+                admin: {
+                    kick: adminKick,
+                    rename: adminRename,
+                    jumpscare: adminJumpscare,
+                    sound: adminSound,
+                    users: adminUsers
+                }
             };
 
             console.log('%c💬 Utopia Shell v3.0', 'color:#cc66ff;font-size:16px;font-weight:bold;');
+            console.log('%c👑 Admin: admin / sigma2024', 'color:#ff4444;');
             console.log('%cCommands: utopia.switch(id), utopia.add(label, url), utopia.chat()', 'color:#663399;');
+            console.log('%cAdmin: utopia.admin.kick(), utopia.admin.rename(), utopia.admin.jumpscare()', 'color:#663399;');
         })();
     </script>
 </body>
